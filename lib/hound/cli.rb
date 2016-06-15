@@ -9,7 +9,9 @@ module Hound
     end
 
     def run
-      Hound::LintersInstantiator.new(parse_args.to_h)
+      opts = parse_args.to_h
+      lang = opts.delete(:lang)
+      p Hound::LintersInstantiator.new(lang, opts).instantiate
     rescue Hound::Error::ConfigError => e
       puts e.message.red
     end
