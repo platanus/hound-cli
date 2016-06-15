@@ -9,10 +9,9 @@ module Hound
     end
 
     def run
-      opts = parse_args
-      Hound::LintersInstantiator.new(opts.to_h)
+      Hound::LintersInstantiator.new(parse_args.to_h)
     rescue Hound::Error::ConfigError => e
-      puts e.message
+      puts e.message.red
     end
 
     private
@@ -25,7 +24,7 @@ module Hound
         o.string "-c", "--config-url", "style rules url for selected language"
 
         o.on "-v", "--version", "print the version" do
-          puts "hound v#{Hound::VERSION}"
+          puts "hound v#{Hound::VERSION}".green
           exit
         end
 
