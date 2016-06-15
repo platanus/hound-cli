@@ -10,7 +10,9 @@ module Hound
 
     def run
       opts = parse_args
-      p opts.to_h
+      Hound::LintersInstantiator.new(opts.to_h)
+    rescue Hound::Error::ConfigError => e
+      puts e.message
     end
 
     private
