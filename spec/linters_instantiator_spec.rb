@@ -2,6 +2,9 @@ require "spec_helper"
 
 describe Hound::LintersInstantiator do
   subject { Hound::LintersInstantiator }
+  before do
+    allow(Dir).to receive(:pwd).and_return(File.join(File.dirname(__FILE__), "support/assets"))
+  end
 
   describe "#new" do
     it "raises error passing invalid language" do
