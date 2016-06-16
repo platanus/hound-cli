@@ -29,7 +29,7 @@ describe HoundConfig do
 
   describe "#enabled_for?" do
     before do
-      set_hound_config_path("enabled")
+      set_hound_config_path(".hound.enabled.yml")
       @config = HoundConfig.new
     end
 

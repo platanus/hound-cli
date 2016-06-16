@@ -3,7 +3,7 @@ require "spec_helper"
 describe Hound::Config::Ruby do
   describe "#options" do
     before do
-      set_hound_config_path("ruby")
+      set_hound_config_path("ruby/.hound.valid.yml")
       @conf = Hound::Config::Ruby.new
     end
 
@@ -17,7 +17,7 @@ describe Hound::Config::Ruby do
 
   describe "#enabled" do
     before do
-      set_hound_config_path("ruby")
+      set_hound_config_path("ruby/.hound.valid.yml")
       @conf = Hound::Config::Ruby.new
     end
 

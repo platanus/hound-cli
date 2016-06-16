@@ -1,8 +1,8 @@
 module HoundHelpers
-  def set_hound_config_path(namespace = nil)
-    path = [File.dirname(__FILE__), "assets", "config"]
-    path << namespace if namespace
-    allow(Dir).to receive(:pwd).and_return(File.join(path))
+  def set_hound_config_path(path = ".hound.yml")
+    parts = [File.dirname(__FILE__), "assets", "config", path]
+    allow_any_instance_of(HoundConfig).to(
+      receive(:config_file_path).and_return(File.join(parts)))
   end
 end
 
