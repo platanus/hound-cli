@@ -2,10 +2,7 @@ require "spec_helper"
 
 describe Hound::LintersInstantiator do
   subject { Hound::LintersInstantiator }
-  before do
-    path = [File.dirname(__FILE__), "support", "assets", "config"]
-    allow(Dir).to receive(:pwd).and_return(File.join(path))
-  end
+  before { set_hound_config_path }
 
   describe "#new" do
     it "raises error passing invalid language" do

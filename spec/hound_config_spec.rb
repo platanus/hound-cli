@@ -1,12 +1,6 @@
 require "spec_helper"
 
 describe HoundConfig do
-  def set_hound_config_path(namespace = nil)
-    path = [File.dirname(__FILE__), "support", "assets", "config"]
-    path << namespace if namespace
-    allow(Dir).to receive(:pwd).and_return(File.join(path))
-  end
-
   describe "#content" do
     it "returns the content of the .hound.yml file" do
       set_hound_config_path

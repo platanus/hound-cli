@@ -6,7 +6,7 @@ class HoundConfig
   def enabled_for?(lang)
     return false unless content.has_key?(lang)
     options = options_for(lang)
-    return true unless options.keys.select { |k| k.downcase == "enabled" }.any?
+    return true unless options.keys.select { |k| k.downcase === "enabled" }.any?
     !!options["enabled"] || !!options["Enabled"]
   end
 
