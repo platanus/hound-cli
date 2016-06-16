@@ -1,17 +1,58 @@
 require "spec_helper"
 
 describe HoundConfig do
+  def set_hound_config_path(namespace = nil)
+    path = [File.dirname(__FILE__), "support", "assets", "config"]
+    path << namespace if namespace
+    allow(Dir).to receive(:pwd).and_return(File.join(path))
+  end
+
   describe "#content" do
     it "returns the content of the .hound.yml file" do
-      allow(Dir).to receive(:pwd).and_return(File.join(File.dirname(__FILE__), "support/assets"))
-
+      set_hound_config_path
       expect(HoundConfig.new.content).to eq(
-        {
-          "scss" => { "enabled" => false },
-          "ruby" => { "config_file" => ".ruby-style.yml" },
-          "javascript" => { "ignore_file" => ".javascript_ignore"}
-        }
+        "scss" => { "enabled" => false },
+        "ruby" => { "config_file" => ".ruby-style.yml" },
+        "javascript" => { "ignore_file" => ".javascript_ignore" }
       )
+    end
+  end
+
+  describe "#options_for" do
+    before do
+      set_hound_config_path
+      @config = HoundConfig.new
+    end
+
+    it "returns content for matching lang" do
+      expect(@config.options_for("ruby")).to eq("config_file" => ".ruby-style.yml")
+    end
+
+    it "returns empty hash for non matching lang" do
+      expect(@config.options_for("unknown")).to eq({})
+    end
+  end
+
+  describe "#enabled_for?" do
+    before do
+      set_hound_config_path("enabled")
+      @config = HoundConfig.new
+    end
+
+    it "returns true with explicit enabled option in true" do
+      expect(@config.enabled_for?("ruby")).to be_truthy
+    end
+
+    it "returns true with explicit Enabled option in true" do
+      expect(@config.enabled_for?("javascript")).to be_truthy
+    end
+
+    it "returns false with unknown language" do
+      expect(@config.enabled_for?("unknown")).to be_falsey
+    end
+
+    it "returns true when enabled key is not present" do
+      expect(@config.enabled_for?("python")).to be_truthy
     end
   end
 end
