@@ -4,9 +4,14 @@ class HoundConfig
   end
 
   def enabled_for?(lang)
+    # enabled if hound.yml does not exist.
+    return true if content.blank?
+    # disabled if hound.yml exists but lang key does not exist.
     return false unless content.has_key?(lang)
     options = options_for(lang)
+    # enabled if lang key exists and enabled key is not defined.
     return true unless options.keys.select { |k| k.downcase === "enabled" }.any?
+    # enabled "enabled" or "Enabled" keys are true.
     !!options["enabled"] || !!options["Enabled"]
   end
 
@@ -24,7 +29,7 @@ class HoundConfig
     cont = YAML::load(File.open(config_file_path))
     ActiveSupport::HashWithIndifferentAccess.new(cont)
   rescue Errno::ENOENT
-    raise Hound::Error::ConfigError.new("Missing .hound.yml in #{Dir.pwd}")
+    nil
   rescue Psych::SyntaxError
     raise Hound::Error::ConfigError.new("Invalid yml content in #{config_file_path}")
   end

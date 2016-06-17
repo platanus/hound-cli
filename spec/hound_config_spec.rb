@@ -28,25 +28,30 @@ describe HoundConfig do
   end
 
   describe "#enabled_for?" do
-    before do
-      set_hound_config_path(".hound.enabled.yml")
-      @config = HoundConfig.new
+    before { @config = HoundConfig.new }
+
+    it "returns true with undefined .hound.yml" do
+      expect(@config.enabled_for?("go")).to be_truthy
     end
 
-    it "returns true with explicit enabled option in true" do
-      expect(@config.enabled_for?("ruby")).to be_truthy
-    end
+    context "with defined .hound.yml" do
+      before { set_hound_config_path(".hound.enabled.yml") }
 
-    it "returns true with explicit Enabled option in true" do
-      expect(@config.enabled_for?("javascript")).to be_truthy
-    end
+      it "returns true with explicit enabled option in true" do
+        expect(@config.enabled_for?("ruby")).to be_truthy
+      end
 
-    it "returns false with unknown language" do
-      expect(@config.enabled_for?("unknown")).to be_falsey
-    end
+      it "returns true with explicit Enabled option in true" do
+        expect(@config.enabled_for?("javascript")).to be_truthy
+      end
 
-    it "returns true when enabled key is not present" do
-      expect(@config.enabled_for?("python")).to be_truthy
+      it "returns false with unknown language" do
+        expect(@config.enabled_for?("unknown")).to be_falsey
+      end
+
+      it "returns true when enabled key is not present" do
+        expect(@config.enabled_for?("python")).to be_truthy
+      end
     end
   end
 end

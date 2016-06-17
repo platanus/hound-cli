@@ -2,7 +2,12 @@ describe Hound::Lang::Ruby do
   subject { Hound::Lang::Ruby.new }
 
   describe "#get_rules" do
-    before { stub_copy_remote_file_proccess }
+    before do
+      # stub copy remote file process
+      allow(RestClient).to receive(:get).and_return("content")
+      allow(Dir).to receive(:pwd).and_return("root")
+      allow(File).to receive(:write).and_return(true)
+    end
 
     context "with enabled lang" do
       before do
