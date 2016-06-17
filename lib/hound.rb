@@ -5,15 +5,10 @@ require "yaml"
 require "hound/version"
 require "hound/errors"
 require "hound/hound_config"
-require "hound/linters_instantiator"
 require "hound/languages/base"
 require "hound/languages/ruby"
 require "hound/languages/eslint"
 require "hound/languages/scss"
-require "hound/config/base"
-require "hound/config/ruby"
-require "hound/linters/base"
-require "hound/linters/ruby"
 
 module Hound
 end
