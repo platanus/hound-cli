@@ -4,6 +4,8 @@ require "yaml"
 
 require "hound/version"
 require "hound/errors"
+require "hound/parser"
+require "hound/serializer"
 require "hound/hound_config"
 require "hound/lang_collection"
 require "hound/languages/base"

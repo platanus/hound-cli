@@ -16,7 +16,13 @@ class HoundConfig
   end
 
   def options_for(lang)
-    content[lang] || ActiveSupport::HashWithIndifferentAccess.new
+    return content[lang] if content.try(:has_key?, lang)
+    ActiveSupport::HashWithIndifferentAccess.new
+  end
+
+  def custom_file(lang)
+    file_name = options_for(lang)[:config_file]
+    Dir.pwd + "/" + file_name if file_name
   end
 
   private

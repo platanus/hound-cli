@@ -1,9 +1,20 @@
-RSpec.shared_examples "get rules from url" do |language|
+RSpec.shared_examples "get rules from url" do |language, file_format|
   describe "#get_rules" do
+    let(:remote_rules) { rules(:remote, language, file_format) }
+
+    def rules(type, language, file_format)
+      rules_path = Dir.pwd + "/spec/support/assets/config/rules/#{language}"
+      file = File.read("#{rules_path}/#{type}.#{file_format}")
+      processed_file = subject.serialize_rules(subject.parse_rules(file))
+      {
+        original: file,
+        processed: processed_file
+      }
+    end
+
     before do
       # stub copy remote file process
-      allow(RestClient).to receive(:get).and_return("content")
-      allow(Dir).to receive(:pwd).and_return("root")
+      allow(RestClient).to receive(:get).and_return(remote_rules[:original])
       allow(File).to receive(:write).and_return(true)
     end
 
@@ -19,7 +30,7 @@ RSpec.shared_examples "get rules from url" do |language|
 
       it "creates linter file with files_url content" do
         subject.get_rules
-        expect(File).to have_received(:write).with("root/#{subject.file_name}", "content").once
+        expect(File).to have_received(:write).with("#{Dir.pwd}/#{subject.file_name}", remote_rules[:processed]).once
       end
 
       it "returns true after loading the rules" do

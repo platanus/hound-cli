@@ -1,5 +1,6 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'hound'
+require 'pry'
 
 path = [File.dirname(__FILE__), "support", "**", "*.rb"]
 Dir[File.join(path)].each { |f| require f }

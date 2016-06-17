@@ -1,0 +1,7 @@
+Lint/LiteralInInterpolation:
+  Description: Remote
+  Enabled: false
+Style/WhenThen:
+  Description: Remote
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#one-line-cases
+  Enabled: false

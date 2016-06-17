@@ -1,0 +1,7 @@
+Style/EmptyLiteral:
+  Description: Custom
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#literal-array-hash
+  Enabled: false
+Lint/LiteralInInterpolation:
+  Description: Custom
+  Enabled: true

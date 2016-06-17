@@ -5,9 +5,26 @@ module Hound
 
       def get_rules
         return false unless enabled_lang?
-        rules = get_rules_from_url
-        write_rules_to_file(rules)
+        rules = parse_rules(get_rules_from_url)
+        merged = rules.deep_merge!(custom_rules)
+        serialized_content = serialize_rules(merged)
+        write_rules_to_file(serialized_content)
         true
+      end
+
+      def custom_rules
+        file_path = hound_config.custom_file(lang_from_class)
+        return {} unless file_path
+        content = File.read(file_path)
+        parse_rules(content)
+      end
+
+      def parse_rules(_content)
+        {}
+      end
+
+      def serialize_rules(_rules)
+        ""
       end
 
       def hound_config

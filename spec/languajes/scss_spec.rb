@@ -1,5 +1,5 @@
-describe Hound::Lang::Ruby do
-  subject { Hound::Lang::Ruby.new }
+describe Hound::Lang::Scss do
+  subject { Hound::Lang::Scss.new }
 
-  include_examples "get rules from url", "ruby"
+  include_examples "get rules from url", "scss", "yml"
 end
