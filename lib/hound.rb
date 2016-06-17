@@ -1,3 +1,4 @@
+require "rest-client"
 require "active_support/all"
 require "yaml"
 
