@@ -5,37 +5,17 @@ module Hound
     end
 
     def initialize(args)
-      @args = args
+      @command = args.first.to_s.to_sym
     end
 
     def run
-      # opts = parse_args.to_h
-      # lang = opts.delete(:lang)
-      # p Hound::LintersInstantiator.new(lang, opts).instantiate
-      Hound::Lang::Ruby.new.get_rules
+      LangCollection.language_instances.each(&:get_rules) if command == :update
     rescue Hound::Error::ConfigError => e
       puts e.message.red
     end
 
     private
 
-    attr_reader :args
-
-    def parse_args
-      Slop.parse do |o|
-        o.string "-l", "--lang", "programming language name"
-        o.string "-c", "--config-url", "style rules url for selected language"
-
-        o.on "-v", "--version", "print the version" do
-          puts "hound v#{Hound::VERSION}".green
-          exit
-        end
-
-        o.on "--help" do
-          puts o
-          exit
-        end
-      end
-    end
+    attr_reader :command
   end
 end

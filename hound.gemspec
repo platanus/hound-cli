@@ -17,7 +17,6 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "slop", "~> 4.3.0"
   spec.add_dependency "colorize", "~> 0.7.7"
   spec.add_dependency "activesupport", "~> 4.2", ">= 4.2.6"
   spec.add_dependency "rest-client", "~> 1.8", ">= 1.8.0"
