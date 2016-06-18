@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Platanus"]
   spec.email         = ["rubygems@platan.us"]
 
-  spec.summary       = "Linters wrapper"
-  spec.description   = "Linters wrapper to use locally"
+  spec.summary       = "Ruby CLI to generate style rules"
+  spec.description   = "Ruby CLI to generate style rules for several linters"
 
   spec.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir = "exe"

@@ -1,21 +1,27 @@
 module Hound
   class Cli
-    def self.run(args)
-      new(args).run
-    end
-
-    def initialize(args)
-      @command = args.first.to_s.to_sym
-    end
+    include Commander::Methods
 
     def run
-      LangCollection.language_instances.each(&:get_rules) if command == :update
-    rescue Hound::Error::ConfigError => e
-      puts e.message.red
+      program :name, "Hound"
+      program :version, Hound::VERSION
+      program :description, "CLI to generate style rules"
+
+      add_update_cmd_definition
+
+      run!
     end
 
     private
 
-    attr_reader :command
+    def add_update_cmd_definition
+      command :update do |c|
+        c.syntax = "hound update"
+
+        c.action do
+          LangCollection.language_instances.each(&:get_rules)
+        end
+      end
+    end
   end
 end

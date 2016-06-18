@@ -4,11 +4,16 @@ module Hound
       attr_reader :rules_url, :file_name
 
       def get_rules
-        return false unless enabled_lang?
+        if !enabled_lang?
+          inform_disabled
+          return false
+        end
+
         rules = parse_rules(get_rules_from_url)
         merged = rules.deep_merge!(custom_rules)
         serialized_content = serialize_rules(merged)
         write_rules_to_file(serialized_content)
+        inform_update
         true
       end
 
@@ -53,6 +58,14 @@ module Hound
         lang = self.class.to_s
         lang.slice!("Hound::Lang::")
         lang.tableize.singularize
+      end
+
+      def inform_update
+        puts "#{file_name} (#{lang_from_class} style) was updated".green
+      end
+
+      def inform_disabled
+        puts "#{file_name} (#{lang_from_class} style) wasn't updated because the style was disabled on .hound.yml file".yellow
       end
     end
   end
