@@ -1,11 +1,12 @@
-Style/EmptyLiteral:
-  Description: Remote
-  StyleGuide: https://github.com/bbatsov/ruby-style-guide#literal-array-hash
+Style/Rule1:
+  Description: Desc 1
   Enabled: false
-Lint/LiteralInInterpolation:
-  Description: Custom
-  Enabled: false
-Style/WhenThen:
-  Description: Remote
-  StyleGuide: https://github.com/bbatsov/ruby-style-guide#one-line-cases
-  Enabled: false
+Style/Rule2:
+  Description: Desc 2
+  Enabled: true
+Style/Rule3:
+  Description: Desc 3
+  Enabled: true
+Style/Rule4:
+  Description: Desc 4
+  Enabled: true

@@ -1,6 +1,4 @@
 {
-  "env": {
-    "es6": false,
-    "platanus": true
-  }
+  "rule1": "modified",
+  "rule4": 4
 }

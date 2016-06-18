@@ -1,7 +1,5 @@
 linters:
-  BangFormat:
+  Rule1:
     enabled: false
-    space_before_bang: false
-    space_after_bang: false
-  Platanus:
+  Rule4:
     enabled: true
