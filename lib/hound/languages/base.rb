@@ -1,7 +1,7 @@
 module Hound
   module Lang
     class Base
-      attr_reader :rules_url, :file_name
+      attr_reader :rules_url, :file_name, :custom_file_name
 
       def get_rules
         if !enabled_lang?
@@ -32,8 +32,19 @@ module Hound
         ""
       end
 
+      def custom_rules_content
+        msg = "Replace the content of this file with custom rules. \
+You should avoid to use custom rules whenever possible."
+        rules = { "note" => msg }
+        serialize_rules(rules)
+      end
+
       def hound_config
         @hound_config ||= HoundConfig.new
+      end
+
+      def name
+        lang_from_class
       end
 
       private

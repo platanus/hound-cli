@@ -1,4 +1,6 @@
 class HoundConfig
+  CONFIG_FILE_NAME = ".hound.yml"
+
   def content
     @content ||= load_content
   end
@@ -25,11 +27,11 @@ class HoundConfig
     Dir.pwd + "/" + file_name if file_name
   end
 
-  private
-
   def config_file_path
-    Dir.pwd + "/.hound.yml"
+    Dir.pwd + "/" + CONFIG_FILE_NAME
   end
+
+  private
 
   def load_content
     cont = YAML::load(File.open(config_file_path))

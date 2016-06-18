@@ -4,6 +4,7 @@ module Hound
       def initialize
         @rules_url = "https://raw.githubusercontent.com/platanus/hound-eslint/master/config/.eslintrc"
         @file_name = ".eslintrc.json"
+        @custom_file_name = ".eslint-style.json"
       end
 
       def parse_rules(content)

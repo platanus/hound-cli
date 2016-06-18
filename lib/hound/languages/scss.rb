@@ -4,6 +4,7 @@ module Hound
       def initialize
         @rules_url = "https://raw.githubusercontent.com/platanus/hound-linters/platanus/config/scss.yml"
         @file_name = ".scss-lint.yml"
+        @custom_file_name = ".scss-style.yml"
       end
 
       def parse_rules(content)
