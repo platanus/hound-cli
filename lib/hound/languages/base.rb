@@ -18,7 +18,7 @@ You should avoid to use custom rules whenever possible."
       end
 
       def custom_rules_file_path
-        File.join(Dir.pwd, lang.custom_rules_file_name)
+        File.join(Dir.pwd, custom_rules_file_name)
       end
 
       private

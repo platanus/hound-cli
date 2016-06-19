@@ -54,7 +54,8 @@ RSpec.shared_examples "get rules from url" do |lang, file_format|
 
         it "returns config file from desired lang" do
           subject.update
-          expect(subject.hound_config).to have_received(:custom_rules_file_name).with(lang.name).once
+          expect(subject.hound_config).to(
+            have_received(:custom_rules_file_name).with(lang.name).once)
         end
       end
     end
@@ -68,6 +69,34 @@ RSpec.shared_examples "get rules from url" do |lang, file_format|
         subject.update
         expect(subject.hound_config).to have_received(:enabled_for?).with(lang.name).once
       end
+    end
+  end
+end
+
+RSpec.shared_examples "create config files" do |lang|
+  context "working with #{lang.name}" do
+    subject { Hound::ConfigCreator.new([lang.name]) }
+
+    before do
+      allow(File).to receive(:write).and_return(true)
+      subject.create
+    end
+
+    it "creates config file with valid data" do
+      content = Hound::Serializer.send(lang.file_format, lang.custom_rules_initial_content)
+      expect(File).to have_received(:write).with(lang.custom_rules_file_path, content).once
+    end
+
+    it "creates custom rules file with valid data" do
+      content = {
+        lang.name => {
+          enabled: true,
+          config_file: lang.custom_rules_file_name
+        }
+      }
+
+      content = Hound::Serializer.yaml(content)
+      expect(File).to have_received(:write).with(HoundConfig.new.config_file_path, content).once
     end
   end
 end
