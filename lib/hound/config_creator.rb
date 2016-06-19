@@ -11,7 +11,7 @@ module Hound
       config_data = lang_instances.inject({}) do |hash, lang|
         hash[lang.name] = {
           enabled: true,
-          config_file: lang.custom_file_name
+          config_file: lang.custom_rules_file_name
         }
 
         write_custom_rules(lang)
@@ -25,8 +25,8 @@ module Hound
     private
 
     def write_custom_rules(lang)
-      path = Dir.pwd + "/" + lang.custom_file_name
-      File.write(path, lang.custom_rules_content)
+      content = Hound::Serializer.send(lang.file_format, lang.custom_rules_initial_content)
+      File.write(lang.custom_rules_file_path, content)
     end
 
     def write_config_file(config_data)

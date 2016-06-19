@@ -20,7 +20,7 @@ module Hound
         c.syntax = "hound update"
 
         c.action do
-          LangCollection.language_instances.each(&:get_rules)
+          RulesUpdater.new.update
         end
       end
     end

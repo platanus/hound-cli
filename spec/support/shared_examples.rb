@@ -1,18 +1,22 @@
-RSpec.shared_examples "get rules from url" do |language, file_format|
-  describe "#get_rules" do
-    def rules(type, language, file_format)
-      file_path = Dir.pwd + "/spec/support/assets/config/rules/#{language}/#{type}.#{file_format}"
+RSpec.shared_examples "get rules from url" do |lang, file_format|
+  context "working with #{lang.name}" do
+    def rules(type, lang, file_format)
+      file_path = Dir.pwd + "/spec/support/assets/config/rules/#{lang.name}/#{type}.#{file_format}"
       content = File.read(file_path)
+      parsed_content = subject.send(:parse_rules, lang, content)
+      serialized_content = subject.send(:serialize_rules, lang, parsed_content)
       {
         original: content,
         path: file_path,
-        processed: subject.serialize_rules(subject.parse_rules(content))
+        processed: serialized_content
       }
     end
 
-    let(:remote_rules) { rules(:remote, language, file_format) }
+    let(:remote_rules) { rules(:remote, lang, file_format) }
 
     before do
+      allow(Hound::LangCollection).to(
+        receive(:language_instances).and_return([lang]))
       allow(RestClient).to receive(:get).and_return(remote_rules[:original])
       allow(File).to receive(:write).and_return(true)
     end
@@ -23,42 +27,34 @@ RSpec.shared_examples "get rules from url" do |language, file_format|
       end
 
       it "gets rules from valid url" do
-        subject.get_rules
-        expect(RestClient).to have_received(:get).with(subject.rules_url).once
+        subject.update
+        expect(RestClient).to have_received(:get).with(lang.rules_url).once
       end
 
       it "creates linter's file with files_url content" do
-        subject.get_rules
+        subject.update
         expect(File).to have_received(:write).with(
-          "#{Dir.pwd}/#{subject.file_name}", remote_rules[:processed]).once
-      end
-
-      it "returns true after loading the rules" do
-        expect(subject.get_rules).to be_truthy
+          "#{Dir.pwd}/#{lang.linters_file_name}", remote_rules[:processed]).once
       end
 
       context "with defined custom rules" do
-        let(:custom_rules) { rules(:custom, language, file_format) }
-        let(:merged_rules) { rules(:merged, language, file_format) }
+        let(:custom_rules) { rules(:custom, lang, file_format) }
+        let(:merged_rules) { rules(:merged, lang, file_format) }
 
         before do
           allow_any_instance_of(HoundConfig).to(
-            receive(:custom_file).and_return(custom_rules[:path]))
+            receive(:custom_rules_file_name).and_return(custom_rules[:path]))
         end
 
         it "creates linter's file with merged content" do
-          subject.get_rules
+          subject.update
           expect(File).to have_received(:write).with(
-            "#{Dir.pwd}/#{subject.file_name}", merged_rules[:processed]).once
+            "#{Dir.pwd}/#{lang.linters_file_name}", merged_rules[:processed]).once
         end
 
         it "returns config file from desired lang" do
-          subject.get_rules
-          expect(subject.hound_config).to have_received(:custom_file).with(language).once
-        end
-
-        it "returns true after loading the rules" do
-          expect(subject.get_rules).to be_truthy
+          subject.update
+          expect(subject.hound_config).to have_received(:custom_rules_file_name).with(lang.name).once
         end
       end
     end
@@ -68,13 +64,9 @@ RSpec.shared_examples "get rules from url" do |language, file_format|
         allow_any_instance_of(HoundConfig).to receive(:enabled_for?).and_return(false)
       end
 
-      it "returns false" do
-        expect(subject.get_rules).to be_falsey
-      end
-
       it "tries to return config for current lang" do
-        subject.get_rules
-        expect(subject.hound_config).to have_received(:enabled_for?).with(language).once
+        subject.update
+        expect(subject.hound_config).to have_received(:enabled_for?).with(lang.name).once
       end
     end
   end

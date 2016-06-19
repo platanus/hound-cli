@@ -3,16 +3,9 @@ module Hound
     class Scss < Base
       def initialize
         @rules_url = "https://raw.githubusercontent.com/platanus/hound-linters/platanus/config/scss.yml"
-        @file_name = ".scss-lint.yml"
-        @custom_file_name = ".scss-style.yml"
-      end
-
-      def parse_rules(content)
-        Hound::Parser.yaml(content)
-      end
-
-      def serialize_rules(rules)
-        Hound::Serializer.yaml(rules)
+        @linters_file_name = ".scss-lint.yml"
+        @custom_rules_file_name = ".scss-style.yml"
+        @file_format = :yaml
       end
     end
   end

@@ -1,6 +1,12 @@
 require "spec_helper"
 
 describe HoundConfig do
+  def set_hound_config_path(path = ".hound.yml")
+    parts = [Dir.pwd, "/spec/support/assets/config", path]
+    allow_any_instance_of(HoundConfig).to(
+      receive(:config_file_path).and_return(File.join(parts)))
+  end
+
   describe "#content" do
     it "returns the content of the .hound.yml file" do
       set_hound_config_path

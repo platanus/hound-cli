@@ -22,13 +22,13 @@ class HoundConfig
     ActiveSupport::HashWithIndifferentAccess.new
   end
 
-  def custom_file(lang)
+  def custom_rules_file_name(lang)
     file_name = options_for(lang)[:config_file]
-    Dir.pwd + "/" + file_name if file_name
+    File.join(Dir.pwd, file_name) if file_name
   end
 
   def config_file_path
-    Dir.pwd + "/" + CONFIG_FILE_NAME
+    File.join(Dir.pwd, CONFIG_FILE_NAME)
   end
 
   private
