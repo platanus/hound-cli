@@ -1,0 +1,5 @@
+linters:
+  Rule1:
+    enabled: false
+  Rule4:
+    enabled: true

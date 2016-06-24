@@ -1,8 +1,7 @@
-# Hound
+# Hound CLI
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/hound`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Ruby CLI created to get and build style rules we use in Platanus to play with linters.
+This tool was built to recreate locally, the same behavior we have in [our forked version](https://github.com/platanus/hound) of [Hound](https://github.com/houndci/hound).
 
 ## Installation
 
@@ -14,28 +13,184 @@ gem 'hound'
 
 And then execute:
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install hound
+```bash
+$ bundle install
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+### Commands
 
-## Development
+#### Update
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+This command allows you to update rules for default (or enabled) linters.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```
+$ hound update
+```
+
+After running this command in your project's root path...
+
+**If you don't have a `.hound.yml` file**, you will get one file (with style rules) for each language configured in this gem. Those files are understood by linters installed in your system. For example: with `ruby` language, a `.rubocop.yml` file will be created. This `.rubocop.yml`, is read by the [rubocop gem](https://github.com/bbatsov/rubocop) (a ruby linter).
+
+Example:
+
+```bash
+$ hound update
+```
+
+will create...
+
+```
+.eslintrc.json
+.rubocop.yml
+.scss-lint.yml
+```
+
+**If you have a `.hound.yml` file**, you will get one file for each **enabled** language in `.hound.yml`.
+
+Example:
+
+If you have the `.hound.yml` file:
+
+```yaml
+---
+ruby:
+  enabled: true
+scss:
+  enabled: false
+eslint:
+  enabled: false
+```
+
+You will get:
+
+```
+.hound.yml
+.rubocop.yml
+```
+
+As you can see, `.rubocop.yml` file was only created because `ruby` was enabled.
+
+In addition, general rules, will be mixed with the rules in a file pointed by the `config_file` key in `.hound.yml`.
+So, If you want to merge your custom rules with the default rules, you will need to add the `config_file` key and create the file with overwritten rules (`.ruby-style.yml` in the following example).
+
+Example:
+
+```yaml
+---
+ruby:
+  enabled: true
+  config_file: ".ruby-style.yml"
+scss:
+  enabled: false
+eslint:
+  enabled: false
+```
+
+You will get:
+
+```
+.hound.yml
+.rubocop.yml
+.ruby-style.yml
+```
+
+#### Config
+
+This command allows you to add custom configuration by language.
+
+> Remember: you should avoid creating specific configuration. As far as possible, you should use the default settings.
+
+```bash
+$ hound config [language]
+```
+
+After running this command in your project's root path, you will get:
+
+- A new or modified `.hound.yml` file with configuration for the given language.
+
+- One file to override default rules for that language. You can edit the file if you want to override default style rules.
+
+Example:
+
+**If you don't have a `.hound.yml` file** and you run:
+
+```bash
+$ hound config ruby
+```
+
+You will get:
+
+A `.hound.yml` file:
+
+```yaml
+---
+ruby:
+  enabled: true
+  config_file: ".ruby-style.yml"
+```
+
+And...
+
+```
+.hound.yml
+.ruby-style.yml
+```
+
+**If you have a `.hound.yml` file**:
+
+```yaml
+---
+ruby:
+  enabled: true
+  config_file: ".ruby-style.yml"
+```
+
+And you run:
+
+```bash
+$ hound config scss
+```
+
+You will get:
+
+A `.hound.yml` file:
+
+```yaml
+---
+ruby:
+  enabled: true
+  config_file: ".ruby-style.yml"
+scss:
+  enabled: true
+  config_file: ".scss-style.yml"
+```
+
+And...
+
+```
+.hound.yml (updated)
+.ruby-style.yml (previously created)
+.scss-style.yml (new)
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/hound.
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
 
+## Credits
+
+Thank you [contributors](https://github.com/platanus/hound-cli/graphs/contributors)!
+
+<img src="http://platan.us/gravatar_with_text.png" alt="Platanus" width="250"/>
+
+Paperclip Attributes is maintained by [platanus](http://platan.us).
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
+Hound CLI is © 2016 platanus, spa. It is free software and may be redistributed under the terms specified in the LICENSE file.

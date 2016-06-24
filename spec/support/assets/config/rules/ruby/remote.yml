@@ -1,0 +1,9 @@
+Style/Rule1:
+  Description: Desc 1
+  Enabled: true
+Style/Rule2:
+  Description: Desc 2
+  Enabled: true
+Style/Rule3:
+  Description: Desc 3
+  Enabled: true
