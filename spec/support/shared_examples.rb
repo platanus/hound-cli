@@ -15,8 +15,8 @@ RSpec.shared_examples "get rules from url" do |lang, file_format|
     let(:remote_rules) { rules(:remote, lang, file_format) }
 
     before do
-      allow(Hound::LangCollection).to(
-        receive(:language_instances).and_return([lang]))
+      allow(Hound::ConfigCollection).to(
+        receive(:config_instances).and_return([lang]))
       allow(RestClient).to receive(:get).and_return(remote_rules[:original])
       allow(File).to receive(:write).and_return(true)
     end

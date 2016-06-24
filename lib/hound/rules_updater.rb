@@ -1,7 +1,7 @@
 module Hound
   class RulesUpdater
     def update
-      LangCollection.language_instances.each { |lang| get_rules(lang) }
+      ConfigCollection.config_instances.each { |linter_config| get_rules(linter_config) }
     end
 
     def hound_config
@@ -10,49 +10,49 @@ module Hound
 
     private
 
-    def get_rules(lang)
-      if !hound_config.enabled_for?(lang.name)
-        inform_disabled(lang)
+    def get_rules(linter_config)
+      if !hound_config.enabled_for?(linter_config.name)
+        inform_disabled(linter_config)
         return
       end
 
-      rules = parse_rules(lang, get_rules_from_url(lang))
-      merged = rules.deep_merge!(get_custom_rules(lang))
-      serialized_content = serialize_rules(lang, merged)
-      write_linters_file(lang, serialized_content)
-      inform_update(lang)
+      rules = parse_rules(linter_config, get_rules_from_url(linter_config))
+      merged = rules.deep_merge!(get_custom_rules(linter_config))
+      serialized_content = serialize_rules(linter_config, merged)
+      write_linters_file(linter_config, serialized_content)
+      inform_update(linter_config)
     end
 
-    def get_custom_rules(lang)
-      file_path = hound_config.custom_rules_file_name(lang.name)
+    def get_custom_rules(linter_config)
+      file_path = hound_config.custom_rules_file_name(linter_config.name)
       return {} unless file_path
       content = File.read(file_path)
-      parse_rules(lang, content)
+      parse_rules(linter_config, content)
     end
 
-    def get_rules_from_url(lang)
-      RestClient.get(lang.rules_url)
+    def get_rules_from_url(linter_config)
+      RestClient.get(linter_config.rules_url)
     end
 
-    def parse_rules(lang, content)
-      Hound::Parser.send(lang.file_format, content)
+    def parse_rules(linter_config, content)
+      Hound::Parser.send(linter_config.file_format, content)
     end
 
-    def serialize_rules(lang, content)
-      Hound::Serializer.send(lang.file_format, content)
+    def serialize_rules(linter_config, content)
+      Hound::Serializer.send(linter_config.file_format, content)
     end
 
-    def write_linters_file(lang, rules)
-      File.write(lang.linters_file_path, rules)
+    def write_linters_file(linter_config, rules)
+      File.write(linter_config.linters_file_path, rules)
     end
 
-    def inform_update(lang)
-      puts "#{lang.linters_file_name} (#{lang.name} style) was updated".green
+    def inform_update(linter_config)
+      puts "#{linter_config.linters_file_name} (#{linter_config.name} style) was updated".green
     end
 
-    def inform_disabled(lang)
-      puts "#{lang.linters_file_name} (#{lang.name} style) wasn't updated \
-because the style was disabled on .hound.yml file".yellow
+    def inform_disabled(linter_config)
+      puts "#{linter_config.linters_file_name} (#{linter_config.name} style) wasn't updated \
+because the style was disabled in .hound.yml file".yellow
     end
   end
 end

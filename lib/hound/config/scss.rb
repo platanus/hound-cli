@@ -1,5 +1,5 @@
 module Hound
-  module Lang
+  module Config
     class Scss < Base
       def initialize
         @rules_url = "https://raw.githubusercontent.com/platanus/hound-linters/platanus/config/scss.yml"

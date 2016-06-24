@@ -24,11 +24,11 @@ describe HoundConfig do
       @config = HoundConfig.new
     end
 
-    it "returns content for matching lang" do
+    it "returns content for matching linter" do
       expect(@config.options_for("ruby")).to eq("config_file" => ".ruby-style.yml")
     end
 
-    it "returns empty hash for non matching lang" do
+    it "returns empty hash for non matching linter" do
       expect(@config.options_for("unknown")).to eq({})
     end
   end
@@ -51,7 +51,7 @@ describe HoundConfig do
         expect(@config.enabled_for?("javascript")).to be_truthy
       end
 
-      it "returns false with unknown language" do
+      it "returns false with unknown linter" do
         expect(@config.enabled_for?("unknown")).to be_falsey
       end
 

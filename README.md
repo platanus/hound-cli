@@ -28,7 +28,7 @@ $ hound update
 
 After running this command in your project's root path...
 
-**If you don't have a `.hound.yml` file**, you will get one file (with style rules) for each language defined in this gem. Those files are understood by linters installed in your system. For example: with `ruby` language, a `.rubocop.yml` file will be created. This `.rubocop.yml`, is read by the [rubocop gem](https://github.com/bbatsov/rubocop) (a ruby linter).
+**If you don't have a `.hound.yml` file**, you will get one file (with style rules) for each language configured in this gem. Those files are understood by linters installed in your system. For example: with `ruby` language, a `.rubocop.yml` file will be created. This `.rubocop.yml`, is read by the [rubocop gem](https://github.com/bbatsov/rubocop) (a ruby linter).
 
 Example:
 

@@ -1,20 +1,20 @@
 module Hound
   class ConfigCreator
-    attr_reader :lang_instances
+    attr_reader :config_instances
 
-    def initialize(langs)
-      langs = [] if langs.blank?
-      @lang_instances = LangCollection.language_instances(langs)
+    def initialize(linter_names)
+      linter_names = [] if linter_names.blank?
+      @config_instances = ConfigCollection.config_instances(linter_names)
     end
 
     def create
-      config_data = lang_instances.inject({}) do |hash, lang|
-        hash[lang.name] = {
+      config_data = config_instances.inject({}) do |hash, config|
+        hash[config.name] = {
           enabled: true,
-          config_file: lang.custom_rules_file_name
+          config_file: config.custom_rules_file_name
         }
 
-        write_custom_rules(lang)
+        write_custom_rules(config)
         hash
       end
 
@@ -24,9 +24,9 @@ module Hound
 
     private
 
-    def write_custom_rules(lang)
-      content = Hound::Serializer.send(lang.file_format, lang.custom_rules_initial_content)
-      File.write(lang.custom_rules_file_path, content)
+    def write_custom_rules(config)
+      content = Hound::Serializer.send(config.file_format, config.custom_rules_initial_content)
+      File.write(config.custom_rules_file_path, content)
     end
 
     def write_config_file(config_data)

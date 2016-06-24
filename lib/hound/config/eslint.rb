@@ -1,5 +1,5 @@
 module Hound
-  module Lang
+  module Config
     class Eslint < Base
       def initialize
         @rules_url = "https://raw.githubusercontent.com/platanus/hound-eslint/master/config/.eslintrc"

@@ -1,5 +1,5 @@
 module Hound
-  module Lang
+  module Config
     class Base
       attr_reader :rules_url, :linters_file_name, :custom_rules_file_name, :file_format
 
@@ -10,7 +10,7 @@ You should avoid to use custom rules whenever possible."
       end
 
       def name
-        lang_from_class
+        name_from_class
       end
 
       def linters_file_path
@@ -23,10 +23,8 @@ You should avoid to use custom rules whenever possible."
 
       private
 
-      def lang_from_class
-        lang = self.class.to_s
-        lang.slice!("Hound::Lang::")
-        lang.tableize.singularize
+      def name_from_class
+        self.class.name.demodulize.underscore
       end
     end
   end

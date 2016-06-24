@@ -5,25 +5,25 @@ class HoundConfig
     @content ||= load_content
   end
 
-  def enabled_for?(lang)
+  def enabled_for?(linter_name)
     # enabled if hound.yml does not exist.
     return true if content.blank?
-    # disabled if hound.yml exists but lang key does not exist.
-    return false unless content.has_key?(lang)
-    options = options_for(lang)
-    # enabled if lang key exists and enabled key is not defined.
+    # disabled if hound.yml exists but linter_name key does not exist.
+    return false unless content.has_key?(linter_name)
+    options = options_for(linter_name)
+    # enabled if linter_name key exists and enabled key is not defined.
     return true unless options.keys.select { |k| k.downcase === "enabled" }.any?
     # enabled "enabled" or "Enabled" keys are true.
     !!options["enabled"] || !!options["Enabled"]
   end
 
-  def options_for(lang)
-    return content[lang] if content.try(:has_key?, lang)
+  def options_for(linter_name)
+    return content[linter_name] if content.try(:has_key?, linter_name)
     ActiveSupport::HashWithIndifferentAccess.new
   end
 
-  def custom_rules_file_name(lang)
-    file_name = options_for(lang)[:config_file]
+  def custom_rules_file_name(linter_name)
+    file_name = options_for(linter_name)[:config_file]
     File.join(Dir.pwd, file_name) if file_name
   end
 
