@@ -19,11 +19,11 @@ class HoundConfig
 
   def options_for(linter_name)
     return content[linter_name] if content.try(:has_key?, linter_name)
-    ActiveSupport::HashWithIndifferentAccess.new
+    Hash.new
   end
 
   def custom_rules_file_name(linter_name)
-    file_name = options_for(linter_name)[:config_file]
+    file_name = options_for(linter_name)["config_file"]
     File.join(Dir.pwd, file_name) if file_name
   end
 
@@ -34,8 +34,7 @@ class HoundConfig
   private
 
   def load_content
-    cont = YAML::load(File.open(config_file_path))
-    ActiveSupport::HashWithIndifferentAccess.new(cont)
+    YAML::load(File.open(config_file_path)).to_hash
   rescue Errno::ENOENT
     nil
   rescue Psych::SyntaxError

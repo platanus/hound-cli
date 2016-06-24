@@ -6,33 +6,32 @@ module Hound
       program :name, "Hound"
       program :version, Hound::VERSION
       program :description, "CLI to generate style rules"
-
-      define_configure_cmd
+      define_config_cmds
       define_update_cmd
-
       run!
     end
 
     private
 
     def define_update_cmd
-      command :update do |c|
+      command(:update) do |c|
         c.syntax = "hound update"
-
-        c.action do
-          RulesUpdater.new.update
-        end
+        c.description = "Updates rules for enabled linters"
+        c.action { RulesUpdater.new.update }
       end
     end
 
-    def define_configure_cmd
-      command :configure do |c|
-        c.syntax = "hound configure"
-        c.option "--langs ARRAY", Array, "Languages to include in .hound.yml"
+    def define_config_cmds
+      ConfigCollection::LINTER_NAMES.each do |linter|
+        define_config_linter_cmd(linter)
+      end
+    end
 
-        c.action do |_args, options|
-          ConfigCreator.new(options.langs).create
-        end
+    def define_config_linter_cmd(linter)
+      command("config #{linter}") do |c|
+        c.syntax = "hound config #{linter}"
+        c.description = "Creates or modifies .hound.yml with default config for #{linter} linter"
+        c.action { ConfigCreator.new([linter]).create }
       end
     end
   end

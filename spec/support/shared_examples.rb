@@ -90,8 +90,8 @@ RSpec.shared_examples "create config files" do |lang|
     it "creates custom rules file with valid data" do
       content = {
         lang.name => {
-          enabled: true,
-          config_file: lang.custom_rules_file_name
+          "enabled" => true,
+          "config_file" => lang.custom_rules_file_name
         }
       }
 
