@@ -1,6 +1,7 @@
 # Hound CLI
 
 Ruby CLI created to get and build style rules we use in Platanus to play with linters.
+This tool was built to recreate locally, the same behavior we have in [our forked version](https://github.com/platanus/hound) of [Hound](https://github.com/houndci/hound).
 
 ## Installation
 
@@ -22,6 +23,8 @@ $ bundle install
 
 #### Update
 
+This command allows you to update rules for default (or enabled) linters.
+
 ```
 $ hound update
 ```
@@ -39,9 +42,9 @@ $ hound update
 will create...
 
 ```
--rw-r--r--  1 user  staff   9.8K Jun 19 00:51 .eslintrc.json
--rw-r--r--  1 user  staff    35K Jun 19 00:51 .rubocop.yml
--rw-r--r--  1 user  staff   3.7K Jun 19 00:51 .scss-lint.yml
+.eslintrc.json
+.rubocop.yml
+.scss-lint.yml
 ```
 
 **If you have a `.hound.yml` file**, you will get one file for each **enabled** language in `.hound.yml`.
@@ -53,18 +56,18 @@ If you have the `.hound.yml` file:
 ```yaml
 ---
 ruby:
-  :enabled: true
+  enabled: true
 scss:
-  :enabled: false
+  enabled: false
 eslint:
-  :enabled: false
+  enabled: false
 ```
 
 You will get:
 
 ```
--rw-r--r--  1 user  staff    27B Jun 19 00:58 .hound.yml
--rw-r--r--  1 user  staff    35K Jun 19 00:58 .rubocop.yml
+.hound.yml
+.rubocop.yml
 ```
 
 As you can see, `.rubocop.yml` file was only created because `ruby` was enabled.
@@ -77,82 +80,99 @@ Example:
 ```yaml
 ---
 ruby:
-  :enabled: true
-  :config_file: ".ruby-style.yml"
+  enabled: true
+  config_file: ".ruby-style.yml"
 scss:
-  :enabled: false
+  enabled: false
 eslint:
-  :enabled: false
+  enabled: false
 ```
 
 You will get:
 
 ```
--rw-r--r--  1 user  staff   111B Jun 19 01:01 .hound.yml
--rw-r--r--  1 user  staff    35K Jun 19 00:58 .rubocop.yml
--rw-r--r--  1 user  staff     6B Jun 19 01:02 .ruby-style.yml
+.hound.yml
+.rubocop.yml
+.ruby-style.yml
 ```
 
-#### Configure
+#### Config
 
-```
-$ hound configure
+This command allows you to add custom configuration by language.
+
+> Remember: you should avoid creating specific configuration. As far as possible, you should use the default settings.
+
+```bash
+$ hound config [language]
 ```
 
 After running this command in your project's root path, you will get:
 
-- A `.hound.yml` file with configuration for each language configured in this gem.
+- A new or modified `.hound.yml` file with configuration for the given language.
 
-- One file to override default rules for each language. You can edit those files if you want to override default style rules.
+- One file to override default rules for that language. You can edit the file if you want to override default style rules.
 
 Example:
 
-```yaml
----
-ruby:
-  :enabled: true
-  :config_file: ".ruby-style.yml"
-scss:
-  :enabled: true
-  :config_file: ".scss-style.yml"
-eslint:
-  :enabled: true
-  :config_file: ".eslint-style.json"
+**If you don't have a `.hound.yml` file** and you run:
+
+```bash
+$ hound config ruby
 ```
 
 You will get:
 
-```
--rw-r--r--  1 user  staff   123B Jun 19 01:08 .eslint-style.json
--rw-r--r--  1 user  staff   180B Jun 19 01:08 .hound.yml
--rw-r--r--  1 user  staff   120B Jun 19 01:08 .ruby-style.yml
--rw-r--r--  1 user  staff   120B Jun 19 01:08 .scss-style.yml
-```
-
-Also, you can pass the `--lang` option to `configure` to pick linters you want to use.
-
-Example:
-
-```
-$ hound configure --lang=ruby,scss
-```
+A `.hound.yml` file:
 
 ```yaml
 ---
 ruby:
-  :enabled: true
-  :config_file: ".ruby-style.yml"
-scss:
-  :enabled: true
-  :config_file: ".scss-style.yml"
+  enabled: true
+  config_file: ".ruby-style.yml"
+```
+
+And...
+
+```
+.hound.yml
+.ruby-style.yml
+```
+
+**If you have a `.hound.yml` file**:
+
+```yaml
+---
+ruby:
+  enabled: true
+  config_file: ".ruby-style.yml"
+```
+
+And you run:
+
+```bash
+$ hound config scss
 ```
 
 You will get:
 
+A `.hound.yml` file:
+
+```yaml
+---
+ruby:
+  enabled: true
+  config_file: ".ruby-style.yml"
+scss:
+  enabled: true
+  config_file: ".scss-style.yml"
 ```
--rw-r--r--  1 user  staff   180B Jun 19 01:08 .hound.yml
--rw-r--r--  1 user  staff   120B Jun 19 01:08 .ruby-style.yml
--rw-r--r--  1 user  staff   120B Jun 19 01:08 .scss-style.yml
+
+And...
+
+```
+.hound.yml (updated)
+.ruby-style.yml (previously created)
+.scss-style.yml (new)
 ```
 
 ## Contributing

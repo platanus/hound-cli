@@ -47,7 +47,7 @@ module Hound
     end
 
     def inform_creation
-      puts "#{HoundConfig::CONFIG_FILE_NAME} config file successfully created".green
+      puts "#{HoundConfig::CONFIG_FILE_NAME} config file successfully updated".green
     end
   end
 end
