@@ -7,16 +7,14 @@ describe HoundConfig do
   end
 
   describe "#content" do
-    context "with undefined local config" do
-      before { stub_config_source(".hound.remote.yml") }
+    before { stub_config_source(".hound.remote.yml") }
 
-      it "returns the content of the remote config file" do
-        expect(HoundConfig.content).to eq(
-          "scss" => { "enabled" => false },
-          "ruby" => { "config_file" => ".ruby-style.yml" },
-          "javascript" => { "ignore_file" => ".javascript_ignore" }
-        )
-      end
+    it "returns the content of the remote config file" do
+      expect(HoundConfig.content).to eq(
+        "scss" => { "enabled" => false },
+        "ruby" => { "config_file" => ".ruby-style.yml" },
+        "javascript" => { "ignore_file" => ".javascript_ignore" }
+      )
     end
   end
 

@@ -21,11 +21,6 @@ class HoundConfig
     Hash.new
   end
 
-  def self.custom_rules_file_name(linter_name)
-    file_name = options_for(linter_name)["config_file"]
-    File.join(Dir.pwd, file_name) if file_name
-  end
-
   def self.config_file_path
     File.join(Dir.pwd, ".hound.yml")
   end

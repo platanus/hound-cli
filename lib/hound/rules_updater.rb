@@ -13,17 +13,9 @@ module Hound
       end
 
       rules = parse_rules(linter_config, get_rules_from_url(linter_config))
-      merged = rules.deep_merge!(get_custom_rules(linter_config))
-      serialized_content = serialize_rules(linter_config, merged)
+      serialized_content = serialize_rules(linter_config, rules)
       write_linters_file(linter_config, serialized_content)
       inform_update(linter_config)
-    end
-
-    def get_custom_rules(linter_config)
-      file_path = HoundConfig.custom_rules_file_name(linter_config.name)
-      return {} unless file_path
-      content = File.read(file_path)
-      parse_rules(linter_config, content)
     end
 
     def get_rules_from_url(linter_config)
