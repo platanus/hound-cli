@@ -1,6 +1,6 @@
 module Hound
   class ConfigCollection
-    LINTER_NAMES = %w{ruby eslint scss}
+    LINTER_NAMES = %w{ruby eslint tslint scss}
 
     def self.config_instances(linter_names = [])
       linter_names = LINTER_NAMES if linter_names.empty?

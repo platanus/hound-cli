@@ -21,10 +21,6 @@ class HoundConfig
     Hash.new
   end
 
-  def self.config_file_path
-    File.join(Dir.pwd, ".hound.yml")
-  end
-
   class << self
     private
 

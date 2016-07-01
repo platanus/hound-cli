@@ -13,6 +13,7 @@ require "hound/config_collection"
 require "hound/config/base"
 require "hound/config/ruby"
 require "hound/config/eslint"
+require "hound/config/tslint"
 require "hound/config/scss"
 
 module Hound
