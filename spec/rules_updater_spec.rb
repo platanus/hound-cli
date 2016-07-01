@@ -23,7 +23,7 @@ RSpec.shared_examples "get rules from url" do |linter_config|
     context "with enabled linter" do
       before do
         allow(HoundConfig).to receive(:enabled_for?).and_return(true)
-        subject.update
+        described_class.update
       end
 
       it "gets rules from valid url" do
@@ -39,7 +39,7 @@ RSpec.shared_examples "get rules from url" do |linter_config|
     context "with disabled linter" do
       before do
         allow(HoundConfig).to receive(:enabled_for?).and_return(false)
-        subject.update
+        described_class.update
       end
 
       it "tries to return config for current linter" do
@@ -51,7 +51,6 @@ end
 
 describe Hound::RulesUpdater do
   describe "#update" do
-    subject { Hound::RulesUpdater.new }
     Hound::ConfigCollection.config_instances.each do |linter_config|
       include_examples("get rules from url", linter_config)
     end
