@@ -70,35 +70,3 @@ RSpec.shared_examples "get rules from url" do |lang, file_format|
     end
   end
 end
-
-RSpec.shared_examples "create config files" do |lang|
-  def stub_config_sources(remote_file: nil, local_file: nil)
-    config_path = Dir.pwd + "/spec/support/assets/config/"
-
-    if remote_file
-      remote_config_path = config_path + remote_file
-      allow(RestClient).to(receive(:get).and_return(File.read(remote_config_path)))
-    end
-
-    if local_file
-      local_config_path = config_path + local_file
-      allow(HoundConfig).to(receive(:config_file_path).and_return(local_config_path))
-    end
-  end
-
-  context "working with #{lang.name}" do
-    subject { Hound::ConfigCreator.new([lang.name]) }
-
-    before do
-      stub_config_sources(remote_file: ".hound.empty.yml", local_file: ".hound.empty.yml")
-      allow(File).to receive(:write).and_return(true)
-      subject.create
-    end
-
-    it "creates custom rules file with valid data" do
-      content = { lang.name => { "enabled" => true } }
-      content = Hound::Serializer.yaml(content)
-      expect(File).to have_received(:write).with(HoundConfig.config_file_path, content).once
-    end
-  end
-end
