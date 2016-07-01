@@ -4,14 +4,10 @@ module Hound
       ConfigCollection.config_instances.each { |linter_config| get_rules(linter_config) }
     end
 
-    def hound_config
-      @hound_config ||= HoundConfig.new
-    end
-
     private
 
     def get_rules(linter_config)
-      if !hound_config.enabled_for?(linter_config.name)
+      if !HoundConfig.enabled_for?(linter_config.name)
         inform_disabled(linter_config)
         return
       end
@@ -24,7 +20,7 @@ module Hound
     end
 
     def get_custom_rules(linter_config)
-      file_path = hound_config.custom_rules_file_name(linter_config.name)
+      file_path = HoundConfig.custom_rules_file_name(linter_config.name)
       return {} unless file_path
       content = File.read(file_path)
       parse_rules(linter_config, content)
