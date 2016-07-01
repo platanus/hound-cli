@@ -8,7 +8,7 @@ module Hound
       end
 
       def linters_file_path
-        File.join(Dir.pwd, linters_file_name)
+        File.join(File.expand_path("~"), linters_file_name)
       end
 
       private

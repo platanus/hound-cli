@@ -32,7 +32,7 @@ RSpec.shared_examples "get rules from url" do |linter_config|
 
       it "creates linter's file with files_url content" do
         expect(File).to have_received(:write).with(
-          "#{Dir.pwd}/#{linter_config.linters_file_name}", remote_rules[:processed]).once
+          linter_config.linters_file_path, remote_rules[:processed]).once
       end
     end
 
