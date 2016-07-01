@@ -1,7 +1,7 @@
 module Hound
   module Config
     class Base
-      attr_reader :rules_url, :linters_file_name, :file_format
+      attr_reader :linters_file_name, :file_format
 
       def name
         name_from_class
@@ -9,6 +9,10 @@ module Hound
 
       def linters_file_path
         File.join(File.expand_path("~"), linters_file_name)
+      end
+
+      def rules_url
+        HoundConfig.rules_url_for(name)
       end
 
       private

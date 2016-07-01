@@ -1,9 +1,8 @@
 class HoundConfig
-  CONFIG_FILE_URL = "https://raw.githubusercontent.com/platanus/la-guia/master/.hound.yml"
+  CONFIG_FILE_REPOSITORY = "https://raw.githubusercontent.com/platanus/la-guia/master/"
 
   def self.content
     @@content ||= load_content
-    load_content
   end
 
   def self.enabled_for?(linter_name)
@@ -21,11 +20,27 @@ class HoundConfig
     Hash.new
   end
 
+  def self.rules_url_for(linter_name)
+    path_in_repo = options_for(linter_name)["config_file"].to_s
+    HoundConfig::CONFIG_FILE_REPOSITORY + path_in_repo
+  end
+
   class << self
     private
 
+    def config_file_url
+      CONFIG_FILE_REPOSITORY + ".hound.yml"
+    end
+
     def load_content
-      Hound::Parser.yaml(RestClient.get(CONFIG_FILE_URL))
+      Hound::Parser.yaml(RestClient.get(config_file_url))
+    rescue RestClient::ResourceNotFound
+      inform_config_not_found(config_file_url)
+      Hash.new
+    end
+
+    def inform_config_not_found(url)
+      puts "config file not found in #{url}".red
     end
   end
 end

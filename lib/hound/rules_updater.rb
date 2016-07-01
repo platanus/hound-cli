@@ -16,6 +16,7 @@ module Hound
         end
 
         rules = parse_rules(linter_config, get_rules_from_url(linter_config))
+        return unless rules
         serialized_content = serialize_rules(linter_config, rules)
         write_linters_file(linter_config, serialized_content)
         inform_update(linter_config)
@@ -23,9 +24,12 @@ module Hound
 
       def get_rules_from_url(linter_config)
         RestClient.get(linter_config.rules_url)
+      rescue RestClient::ResourceNotFound
+        inform_rules_not_found(linter_config)
       end
 
       def parse_rules(linter_config, content)
+        return if content.blank?
         Hound::Parser.send(linter_config.file_format, content)
       end
 
@@ -43,7 +47,11 @@ module Hound
 
       def inform_disabled(linter_config)
         puts "#{linter_config.linters_file_name} (#{linter_config.name} style) wasn't updated \
-  because the style was disabled in .hound.yml file".yellow
+because the style was undefined or disabled in .hound.yml file".yellow
+      end
+
+      def inform_rules_not_found(linter_config)
+        puts "rules for #{linter_config.name} not found in #{linter_config.rules_url}".red
       end
     end
   end

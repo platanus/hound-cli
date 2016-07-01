@@ -45,8 +45,8 @@ describe HoundConfig do
       expect(described_class.enabled_for?("unknown")).to be_falsey
     end
 
-    it "returns true when enabled key is not present" do
-      expect(described_class.enabled_for?("python")).to be_truthy
+    it "returns false when enabled key is not present" do
+      expect(described_class.enabled_for?("eslint")).to be_falsey
     end
   end
 end
