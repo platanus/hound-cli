@@ -27,7 +27,7 @@ This command allows you to update style rules for enabled linters.
 $ hound rules update
 ```
 
-After running this command you will get one file (with style rules) for each enabled linter in the [.hound.yml](https://raw.githubusercontent.com/platanus/la-guia/master/.hound.yml) file. Those files are understood by linters installed in your system. For example: with `ruby` language, a `.rubocop.yml` file will be created. This `.rubocop.yml`, is read by the [rubocop gem](https://github.com/bbatsov/rubocop) (a ruby linter).
+After running this command you will get one file (with style rules) for each enabled linter in the **remote** [.hound.yml](https://raw.githubusercontent.com/platanus/la-guia/master/.hound.yml) file. Those files are understood by linters installed in your system. For example: with `ruby` language, a `.rubocop.yml` file will be created. This `.rubocop.yml`, is read by the [rubocop gem](https://github.com/bbatsov/rubocop) (a ruby linter).
 
 Example:
 
