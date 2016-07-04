@@ -1,8 +1,7 @@
-# Hound
+# Hound CLI
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/hound`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Ruby CLI created to get and build style rules we use in Platanus to play with linters.
+This tool was built to recreate locally, the same behavior we have in [our forked version](https://github.com/platanus/hound) of [Hound](https://github.com/houndci/hound).
 
 ## Installation
 
@@ -14,28 +13,85 @@ gem 'hound'
 
 And then execute:
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install hound
+```bash
+$ bundle install
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+### Update command
 
-## Development
+This command allows you to update style rules for enabled linters.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```
+$ hound rules update
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+After running this command you will get one file (with style rules) for each enabled linter in the [.hound.yml](https://raw.githubusercontent.com/platanus/la-guia/master/.hound.yml) file. Those files are understood by linters installed in your system. For example: with `ruby` language, a `.rubocop.yml` file will be created. This `.rubocop.yml`, is read by the [rubocop gem](https://github.com/bbatsov/rubocop) (a ruby linter).
+
+Example:
+
+Having...
+
+```yaml
+javascript:
+  enabled: false
+eslint:
+  enabled: true
+  config_file: style/config/.eslintrc.json
+tslint:
+  enabled: false
+  config_file: style/config/tslint.json
+ruby:
+  enabled: true
+  config_file: style/config/.rubocop.yml
+scss:
+  enabled: true
+  config_file: style/config/.scss-lint.yml
+```
+
+And running...
+
+```bash
+$ hound rules update
+```
+
+You will get in your `$HOME` path the following files:
+
+```
+.eslintrc.json
+.rubocop.yml
+.scss-lint.yml
+```
+
+Also, you can pass a linter's name to update rules for a specific language.
+
+For example:
+
+Running...
+
+```
+$ hound rules update ruby
+```
+
+You will get an updated `.rubocop.yml` file in your `$HOME` path.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/hound.
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
 
+## Credits
+
+Thank you [contributors](https://github.com/platanus/hound-cli/graphs/contributors)!
+
+<img src="http://platan.us/gravatar_with_text.png" alt="Platanus" width="250"/>
+
+Paperclip Attributes is maintained by [platanus](http://platan.us).
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
+Hound CLI is © 2016 platanus, spa. It is free software and may be redistributed under the terms specified in the LICENSE file.
