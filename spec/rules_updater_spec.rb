@@ -4,11 +4,8 @@ RSpec.shared_examples "get rules from url" do |linter_config|
   context "working with #{linter_config.name}" do
     def rules_for(linter_config)
       rules_assets_path = "#{Dir.pwd}/spec/support/assets/rules"
-      file_path = "#{rules_assets_path}/#{linter_config.name}.#{linter_config.file_format}"
-      content = File.read(file_path)
-      parsed_content = Hound::Parser.send(linter_config.file_format, content)
-      serialized_content = Hound::Serializer.send(linter_config.file_format, parsed_content)
-      { original: content, processed: serialized_content }
+      file_path = "#{rules_assets_path}/#{linter_config.linters_file_name}"
+      File.read(file_path)
     end
 
     let(:remote_rules) { rules_for(linter_config) }
@@ -16,7 +13,7 @@ RSpec.shared_examples "get rules from url" do |linter_config|
     before do
       allow(Hound::ConfigCollection).to(
         receive(:config_instances).and_return([linter_config]))
-      allow(RestClient).to receive(:get).and_return(remote_rules[:original])
+      allow(RestClient).to receive(:get).and_return(remote_rules)
       allow(File).to receive(:write).and_return(true)
     end
 
@@ -32,7 +29,7 @@ RSpec.shared_examples "get rules from url" do |linter_config|
 
       it "creates linter's file with files_url content" do
         expect(File).to have_received(:write).with(
-          linter_config.linters_file_path, remote_rules[:processed]).once
+          linter_config.linters_file_path, remote_rules).once
       end
     end
 

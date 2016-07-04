@@ -15,10 +15,9 @@ module Hound
           return
         end
 
-        rules = parse_rules(linter_config, get_rules_from_url(linter_config))
+        rules = get_rules_from_url(linter_config)
         return unless rules
-        serialized_content = serialize_rules(linter_config, rules)
-        write_linters_file(linter_config, serialized_content)
+        write_linters_file(linter_config, rules)
         inform_update(linter_config)
       end
 
@@ -26,15 +25,6 @@ module Hound
         RestClient.get(linter_config.rules_url)
       rescue RestClient::ResourceNotFound
         inform_rules_not_found(linter_config)
-      end
-
-      def parse_rules(linter_config, content)
-        return if content.blank?
-        Hound::Parser.send(linter_config.file_format, content)
-      end
-
-      def serialize_rules(linter_config, content)
-        Hound::Serializer.send(linter_config.file_format, content)
       end
 
       def write_linters_file(linter_config, rules)

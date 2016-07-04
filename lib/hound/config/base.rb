@@ -1,7 +1,7 @@
 module Hound
   module Config
     class Base
-      attr_reader :linters_file_name, :file_format
+      attr_reader :linters_file_name
 
       def name
         name_from_class
