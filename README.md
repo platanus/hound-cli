@@ -5,16 +5,8 @@ This tool was built to recreate locally, the same behavior we have in [our forke
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'hound'
-```
-
-And then execute:
-
 ```bash
-$ bundle install
+$ gem install hound-cli
 ```
 
 ## Usage
