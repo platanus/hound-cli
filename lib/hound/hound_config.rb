@@ -7,7 +7,7 @@ class HoundConfig
 
   def self.enabled_for?(linter_name)
     # disabled if linter_name key does not exist in hound.yml
-    return false unless content.has_key?(linter_name)
+    return false unless content.key?(linter_name)
     options = options_for(linter_name)
     # enabled if linter_name key exists and enabled key is not defined.
     return true unless options.keys.select { |k| k.downcase === "enabled" }.any?
@@ -16,7 +16,7 @@ class HoundConfig
   end
 
   def self.options_for(linter_name)
-    return content[linter_name] if content.try(:has_key?, linter_name)
+    return content[linter_name] if content.respond_to?(:key?) && content.key?(linter_name)
     Hash.new
   end
 

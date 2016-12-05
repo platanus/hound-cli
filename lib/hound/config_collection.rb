@@ -6,7 +6,7 @@ module Hound
       linter_names = LINTER_NAMES if linter_names.empty?
       linter_names.map do |linter|
         ensure_valid_linter(linter)
-        "Hound::Config::#{linter.classify}".constantize.new
+        Module.const_get("Hound::Config::#{linter.capitalize}").new
       end
     end
 

@@ -1,9 +1,9 @@
 require "colorize"
 require "rest-client"
-require "active_support/all"
 require "yaml"
 
 require "hound/version"
+require "hound/string_ext"
 require "hound/errors"
 require "hound/parser"
 require "hound/hound_config"

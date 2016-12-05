@@ -18,7 +18,7 @@ module Hound
       private
 
       def name_from_class
-        self.class.name.demodulize.underscore
+        self.class.name.split("::").pop.underscore
       end
     end
   end

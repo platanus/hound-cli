@@ -18,7 +18,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "colorize", "~> 0.7", ">= 0.7.7"
-  spec.add_dependency "activesupport", "~> 4.2", ">= 4.2.6"
   spec.add_dependency "rest-client", "~> 1.8", ">= 1.8.0"
   spec.add_dependency "commander", "~> 4.4", ">= 4.4.0"
 
