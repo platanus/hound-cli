@@ -18,18 +18,10 @@ module Hound
         c.option "--local", "Updates rules only for local project (current path)"
         c.description = "Updates rules for enabled linters"
         c.action do |linters, options|
-          options.local ? update_local_rules(linters) : update_global_rules(linters)
+          linter_names = linters.empty? ? ConfigCollection::LINTER_NAMES : linters
+          RulesUpdater.update(linter_names, !options.local)
         end
       end
-    end
-
-    def update_local_rules(_linters)
-      puts "TODO"
-    end
-
-    def update_global_rules(linters)
-      linter_names = linters.empty? ? ConfigCollection::LINTER_NAMES : linters
-      RulesUpdater.update(linter_names)
     end
   end
 end

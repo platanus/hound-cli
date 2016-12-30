@@ -12,7 +12,8 @@ RSpec.shared_examples "get rules from url" do |linter_config|
 
     before do
       allow(Hound::ConfigCollection).to(
-        receive(:config_instances).and_return([linter_config]))
+        receive(:config_instances).and_return([linter_config])
+      )
       allow(RestClient).to receive(:get).and_return(remote_rules)
       allow(File).to receive(:write).and_return(true)
     end
@@ -29,7 +30,8 @@ RSpec.shared_examples "get rules from url" do |linter_config|
 
       it "creates linter's file with files_url content" do
         expect(File).to have_received(:write).with(
-          linter_config.linters_file_path, remote_rules).once
+          linter_config.linters_file_path, remote_rules
+        ).once
       end
     end
 
@@ -41,6 +43,30 @@ RSpec.shared_examples "get rules from url" do |linter_config|
 
       it "tries to return config for current linter" do
         expect(HoundConfig).to have_received(:enabled_for?).with(linter_config.name).once
+      end
+    end
+
+    context "with false global option" do
+      before do
+        allow(HoundConfig).to receive(:enabled_for?).and_return(true)
+        described_class.update([], false)
+      end
+
+      it "creates linter's file with files_url content and hound.yml" do
+        expect(File).to have_received(:write).with(
+          linter_config.linters_file_path(false), remote_rules
+        ).once
+
+        content = {
+          linter_config.name => {
+            enabled: true,
+            config_file: linter_config.linters_file_name
+          }
+        }.to_yaml
+
+        expect(File).to have_received(:write).with(
+          File.join(File.expand_path('.'), 'hound.yml'), content
+        ).once
       end
     end
   end

@@ -7,8 +7,9 @@ module Hound
         name_from_class
       end
 
-      def linters_file_path
-        File.join(File.expand_path("~"), linters_file_name)
+      def linters_file_path(global = true)
+        from = global ? "~" : "."
+        File.join(File.expand_path(from), linters_file_name)
       end
 
       def rules_url

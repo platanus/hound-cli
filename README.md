@@ -56,17 +56,26 @@ You will get in your `$HOME` path the following files:
 .scss-lint.yml
 ```
 
-Also, you can pass a linter's name to update rules for a specific language.
+Also, you can pass a linter's name to update rules for specific languages.
 
 For example:
 
 Running...
 
 ```
-$ hound rules update ruby
+$ hound rules update ruby tslint
 ```
 
-You will get an updated `.rubocop.yml` file in your `$HOME` path.
+You will get updated `.rubocop.yml` and `tslint.json` files in your `$HOME` path.
+
+If you want to put the rules in the current path (your project's path) instead of `$HOME` you can run the command with `--local` option.
+
+```
+$ hound rules update --local
+$ hound rules update ruby tslint --local
+```
+
+> Running update with `--local` option will create a hound.yml file in the current path too.
 
 ## Contributing
 
