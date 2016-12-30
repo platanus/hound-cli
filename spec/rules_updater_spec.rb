@@ -46,15 +46,15 @@ RSpec.shared_examples "get rules from url" do |linter_config|
       end
     end
 
-    context "with false global option" do
+    context "with true local option" do
       before do
         allow(HoundConfig).to receive(:enabled_for?).and_return(true)
-        described_class.update([], false)
+        described_class.update([], true)
       end
 
       it "creates linter's file with files_url content and hound.yml" do
         expect(File).to have_received(:write).with(
-          linter_config.linters_file_path(false), remote_rules
+          linter_config.linters_file_path(true), remote_rules
         ).once
 
         content = {

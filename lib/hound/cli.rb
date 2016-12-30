@@ -19,9 +19,13 @@ module Hound
         c.description = "Updates rules for enabled linters"
         c.action do |linters, options|
           linter_names = linters.empty? ? ConfigCollection::LINTER_NAMES : linters
-          RulesUpdater.update(linter_names, !options.local)
+          RulesUpdater.update(linter_names, options.local || hound_yml_exist?)
         end
       end
+    end
+
+    def hound_yml_exist?
+      File.exist?(File.join(File.expand_path('.'), 'hound.yml'))
     end
   end
 end

@@ -4,20 +4,17 @@ module Hound
   module RulesUpdater
     extend self
 
-    def update(linter_names = [], global = true)
+    def update(linter_names = [], local = false)
       linter_configs = ConfigCollection.config_instances(linter_names)
-      write_rules(linter_configs, global)
-      create_hound_yml(linter_configs) unless global
+      write_rules(linter_configs, local)
+      write_hound_yml(linter_configs) if local
     end
 
     private
 
-    def create_hound_yml(linter_configs)
+    def write_hound_yml(linter_configs)
       hound_config = linter_configs.inject({}) do |memo, linter_config|
-        memo[linter_config.name] = {
-          enabled: true,
-          config_file: linter_config.linters_file_name
-        }
+        memo[linter_config.name] = linter_config.hound_yml_config
         memo
       end
 
@@ -25,13 +22,13 @@ module Hound
       File.write(hound_yml_path, hound_config.to_yaml)
     end
 
-    def write_rules(linter_configs, global)
+    def write_rules(linter_configs, local)
       linter_configs.each do |linter_config|
-        get_rules(linter_config, global)
+        get_rules(linter_config, local)
       end
     end
 
-    def get_rules(linter_config, global)
+    def get_rules(linter_config, local)
       if !HoundConfig.enabled_for?(linter_config.name)
         inform_disabled(linter_config)
         return
@@ -39,7 +36,7 @@ module Hound
 
       rules = get_rules_from_url(linter_config)
       return unless rules
-      File.write(linter_config.linters_file_path(global), rules)
+      File.write(linter_config.linters_file_path(local), rules)
       inform_update(linter_config)
     end
 
