@@ -1,5 +1,12 @@
-sudo: false
 language: ruby
 rvm:
-  - 2.3.1
+- 2.3.1
 before_install: gem install bundler -v 1.12.5
+deploy:
+  provider: rubygems
+  api_key:
+    secure: uVhjVsdtDOyW03Z+GamHeecjspLNjiKnuLczkTmzbkp3mm/GLywA20Ebm3cESx5kWIfaqsRWGLh2JDyECBrrHmDD31F9qqv77w4uszZLWAyfP+O7SVbVh6ikfLypvlSiqNbaiKUQtmaQyrwW0Uxn9X00bfAaBZv3bDRjLmbiL26nlyXC22+zTqSeL95kQjXkjDSUyHThxBa1UzKxSYcU0q31HsuwoewotaQC2VtC3/pa04ufpU89GSCHFLjkOJQRVf07qIsM/UriL5BpRYRamJtTf5OTS0Cm1fsM+K0lRUsStKPuUcommlZyS/ih8hliH1AjKcRQ70xuwFuQc/h2OUZJCY4c+5cbKeirtU8JWoyZ3zAFAJOaUUnF3svedKXMFKO5VXjXepd+lRjCaW/g4yzY3A4YUao814Zwj18m2CuYSYXmwv0+G6+eCrmAdmL4+0EdWDwPttQy/+DCxoM1pg0bnOS9fcqZAKXM99zC+jfwCUsewdem3Y3TZh/2TotyZJjc49uT1/XKGo1g6NDt9OTg+9LRzlemX9LlbTsA6o9pi1fE5CibaJpKkrqV/6dhbi2csT9hd5nCUUA6f4P6fwjxOyD6iHurK+cWGhifKG+iiiH0J2Wi0Jp+bJrG+5nmYmhjinrk2ALA8OB7iwxAFQ6a0z5bQgcdgcE9vXyedWc=
+  gem: hound-cli
+  on:
+    tags: true
+    repo: platanus/hound-cli
