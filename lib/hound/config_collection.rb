@@ -1,8 +1,10 @@
 module Hound
-  class ConfigCollection
+  module ConfigCollection
+    extend self
+
     LINTER_NAMES = %w{ruby eslint tslint scss}
 
-    def self.config_instances(linter_names = [])
+    def config_instances(linter_names = [])
       linter_names = LINTER_NAMES if linter_names.empty?
       linter_names.map do |linter|
         ensure_valid_linter(linter)
@@ -10,13 +12,11 @@ module Hound
       end
     end
 
-    class << self
-      private
+    private
 
-      def ensure_valid_linter(linter)
-        if !LINTER_NAMES.include?(linter)
-          raise Hound::Error::InvalidLang.new("Invalid #{linter} linter")
-        end
+    def ensure_valid_linter(linter)
+      if !LINTER_NAMES.include?(linter)
+        raise Hound::Error::InvalidLang.new("Invalid #{linter} linter")
       end
     end
   end

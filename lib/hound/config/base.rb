@@ -7,8 +7,16 @@ module Hound
         name_from_class
       end
 
-      def linters_file_path
-        File.join(File.expand_path("~"), linters_file_name)
+      def hound_yml_config
+        {
+          enabled: true,
+          config_file: linters_file_name
+        }
+      end
+
+      def linters_file_path(local = false)
+        from = local ? "." : "~"
+        File.join(File.expand_path(from), linters_file_name)
       end
 
       def rules_url

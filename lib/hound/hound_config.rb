@@ -1,11 +1,13 @@
-class HoundConfig
+module HoundConfig
+  extend self
+
   CONFIG_FILE_REPOSITORY = "https://raw.githubusercontent.com/platanus/la-guia/master/"
 
-  def self.content
+  def content
     @@content ||= load_content
   end
 
-  def self.enabled_for?(linter_name)
+  def enabled_for?(linter_name)
     # disabled if linter_name key does not exist in hound.yml
     return false unless content.key?(linter_name)
     options = options_for(linter_name)
@@ -15,32 +17,30 @@ class HoundConfig
     !!options["enabled"] || !!options["Enabled"]
   end
 
-  def self.options_for(linter_name)
+  def options_for(linter_name)
     return content[linter_name] if content.respond_to?(:key?) && content.key?(linter_name)
     Hash.new
   end
 
-  def self.rules_url_for(linter_name)
+  def rules_url_for(linter_name)
     path_in_repo = options_for(linter_name)["config_file"].to_s
     HoundConfig::CONFIG_FILE_REPOSITORY + path_in_repo
   end
 
-  class << self
-    private
+  private
 
-    def config_file_url
-      CONFIG_FILE_REPOSITORY + ".hound.yml"
-    end
+  def config_file_url
+    CONFIG_FILE_REPOSITORY + ".hound.yml"
+  end
 
-    def load_content
-      Hound::Parser.yaml(RestClient.get(config_file_url))
-    rescue RestClient::ResourceNotFound
-      inform_config_not_found(config_file_url)
-      Hash.new
-    end
+  def load_content
+    Hound::Parser.yaml(RestClient.get(config_file_url))
+  rescue RestClient::ResourceNotFound
+    inform_config_not_found(config_file_url)
+    Hash.new
+  end
 
-    def inform_config_not_found(url)
-      puts "config file not found in #{url}".red
-    end
+  def inform_config_not_found(url)
+    puts "config file not found in #{url}".red
   end
 end

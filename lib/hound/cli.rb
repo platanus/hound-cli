@@ -14,22 +14,18 @@ module Hound
 
     def define_update_cmds
       command("rules update") do |c|
-        c.syntax = "hound rules updates"
-        c.description = "Update rules for enabled linters"
-        c.action { RulesUpdater.update }
-      end
-
-      ConfigCollection::LINTER_NAMES.each do |linter|
-        define_update_linter_cmd(linter)
+        c.syntax = "hound rules update [#{ConfigCollection::LINTER_NAMES.join(' ')}] [options]"
+        c.option "--local", "Updates rules only for local project (current path)"
+        c.description = "Updates rules for enabled linters"
+        c.action do |linters, options|
+          linter_names = linters.empty? ? ConfigCollection::LINTER_NAMES : linters
+          RulesUpdater.update(linter_names, options.local || hound_yml_exist?)
+        end
       end
     end
 
-    def define_update_linter_cmd(linter)
-      command("rules update #{linter}") do |c|
-        c.syntax = "hound rules update #{linter}"
-        c.description = "Update rules for #{linter} linter"
-        c.action { RulesUpdater.update(linter) }
-      end
+    def hound_yml_exist?
+      File.exist?(File.join(File.expand_path('.'), 'hound.yml'))
     end
   end
 end
