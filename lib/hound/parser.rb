@@ -1,5 +1,5 @@
 module Hound
-  class Parser
+  module Parser
     def self.yaml(content)
       YAML.safe_load(content, [Regexp])
     end
