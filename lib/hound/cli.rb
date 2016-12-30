@@ -14,22 +14,22 @@ module Hound
 
     def define_update_cmds
       command("rules update") do |c|
-        c.syntax = "hound rules updates"
-        c.description = "Update rules for enabled linters"
-        c.action { RulesUpdater.update }
-      end
-
-      ConfigCollection::LINTER_NAMES.each do |linter|
-        define_update_linter_cmd(linter)
+        c.syntax = "hound rules update [#{ConfigCollection::LINTER_NAMES.join(' ')}] [options]"
+        c.option "--local", "Updates rules only for local project (current path)"
+        c.description = "Updates rules for enabled linters"
+        c.action do |linters, options|
+          options.local ? update_local_rules(linters) : update_global_rules(linters)
+        end
       end
     end
 
-    def define_update_linter_cmd(linter)
-      command("rules update #{linter}") do |c|
-        c.syntax = "hound rules update #{linter}"
-        c.description = "Update rules for #{linter} linter"
-        c.action { RulesUpdater.update(linter) }
-      end
+    def update_local_rules(_linters)
+      puts "TODO"
+    end
+
+    def update_global_rules(linters)
+      linter_names = linters.empty? ? ConfigCollection::LINTER_NAMES : linters
+      RulesUpdater.update(linter_names)
     end
   end
 end

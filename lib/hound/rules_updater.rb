@@ -1,6 +1,6 @@
 module Hound
   class RulesUpdater
-    def self.update(*linter_names)
+    def self.update(linter_names = [])
       ConfigCollection.config_instances(linter_names).each do |linter_config|
         get_rules(linter_config)
       end
