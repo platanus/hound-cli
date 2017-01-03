@@ -65,7 +65,7 @@ RSpec.shared_examples "get rules from url" do |linter_config|
         }.to_yaml
 
         expect(File).to have_received(:write).with(
-          File.join(File.expand_path('.'), 'hound.yml'), content
+          File.join(File.expand_path('.'), '.hound.yml'), content
         ).once
       end
     end

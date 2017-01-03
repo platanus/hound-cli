@@ -18,8 +18,9 @@ module Hound
         memo
       end
 
-      hound_yml_path = File.join(File.expand_path('.'), 'hound.yml')
+      hound_yml_path = File.join(File.expand_path('.'), '.hound.yml')
       File.write(hound_yml_path, hound_config.to_yaml)
+      puts ".hound.yml was updated".green
     end
 
     def write_rules(linter_configs, local)
