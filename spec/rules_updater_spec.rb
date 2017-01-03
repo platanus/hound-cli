@@ -57,15 +57,9 @@ RSpec.shared_examples "get rules from url" do |linter_config|
           linter_config.linters_file_path(true), remote_rules
         ).once
 
-        content = {
-          linter_config.name => {
-            enabled: true,
-            config_file: linter_config.linters_file_name
-          }
-        }.to_yaml
-
+        content = { linter_config.name => linter_config.hound_yml_config }.to_yaml
         expect(File).to have_received(:write).with(
-          File.join(File.expand_path('.'), 'hound.yml'), content
+          File.join(File.expand_path('.'), '.hound.yml'), content
         ).once
       end
     end

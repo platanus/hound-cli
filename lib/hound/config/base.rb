@@ -9,8 +9,8 @@ module Hound
 
       def hound_yml_config
         {
-          enabled: true,
-          config_file: linters_file_name
+          "enabled" => true,
+          "config_file" => linters_file_name
         }
       end
 
