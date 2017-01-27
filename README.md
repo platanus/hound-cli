@@ -75,7 +75,7 @@ $ hound rules update --local
 $ hound rules update ruby tslint --local
 ```
 
-> Running update with `--local` option will create a hound.yml file in the current path too.
+> Running update with `--local` option will create a .hound.yml file in the current path too.
 
 ## Contributing
 

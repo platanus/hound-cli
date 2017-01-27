@@ -52,7 +52,7 @@ RSpec.shared_examples "get rules from url" do |linter_config|
         described_class.update([], true)
       end
 
-      it "creates linter's file with files_url content and hound.yml" do
+      it "creates linter's file with files_url content and .hound.yml" do
         expect(File).to have_received(:write).with(
           linter_config.linters_file_path(true), remote_rules
         ).once

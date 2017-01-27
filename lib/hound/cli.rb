@@ -25,7 +25,7 @@ module Hound
     end
 
     def hound_yml_exist?
-      File.exist?(File.join(File.expand_path('.'), 'hound.yml'))
+      File.exist?(File.join(File.expand_path('.'), '.hound.yml'))
     end
   end
 end

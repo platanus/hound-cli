@@ -8,7 +8,7 @@ module HoundConfig
   end
 
   def enabled_for?(linter_name)
-    # disabled if linter_name key does not exist in hound.yml
+    # disabled if linter_name key does not exist in .hound.yml
     return false unless content.key?(linter_name)
     options = options_for(linter_name)
     # enabled if linter_name key exists and enabled key is not defined.
