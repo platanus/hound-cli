@@ -1,4 +1,4 @@
-# Hound CLI
+# Hound CLI [![Gem Version](https://badge.fury.io/rb/hound-cli.svg)](https://badge.fury.io/rb/hound-cli) [![Build Status](https://travis-ci.org/platanus/hound-cli.svg?branch=master)](https://travis-ci.org/platanus/hound-cli) [![Coverage Status](https://coveralls.io/repos/github/platanus/hound-cli/badge.svg)](https://coveralls.io/github/platanus/hound-cli)
 
 Ruby CLI created to get and build style rules we use in Platanus to play with linters.
 This tool was built to recreate locally, the same behavior we have in [our forked version](https://github.com/platanus/hound) of [Hound](https://github.com/houndci/hound).
