@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "rule1": true,
+    "ruel2": false,
+    "ruel3": false
+  }
+}

@@ -1,7 +1,0 @@
-linters:
-  Rule1:
-    enabled: true
-  Rule2:
-    enabled: true
-  Rule3:
-    enabled: true

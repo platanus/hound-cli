@@ -11,7 +11,7 @@ describe HoundConfig do
 
     it "returns the content of the remote config file" do
       expect(HoundConfig.content).to eq(
-        "scss" => { "enabled" => false },
+        "stylelint" => { "enabled" => true },
         "ruby" => { "config_file" => ".ruby-style.yml" },
         "javascript" => { "ignore_file" => ".javascript_ignore" }
       )
