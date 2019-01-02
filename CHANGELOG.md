@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### v0.4.0
+
+* Use Stylelint instead of SCSS Lint.
+
 ### v0.3.0
 
 * Add Hound configuration.
