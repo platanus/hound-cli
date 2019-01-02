@@ -37,9 +37,9 @@ tslint:
 ruby:
   enabled: true
   config_file: style/config/.rubocop.yml
-scss:
+stylelint:
   enabled: true
-  config_file: style/config/.scss-lint.yml
+  config_file: style/config/.stylelintrc.json
 ```
 
 And running...
@@ -53,7 +53,7 @@ You will get in your `$HOME` path the following files:
 ```
 .eslintrc.json
 .rubocop.yml
-.scss-lint.yml
+.stylelintrc.json
 ```
 
 Also, you can pass a linter's name to update rules for specific languages.
